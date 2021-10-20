@@ -1,3 +1,4 @@
+import 'package:ecogo_mobile_app/screens/store.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,13 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "EcoGo",
-          ),
-        ),
-      ),
+      home: Store(),
     );
   }
 }
