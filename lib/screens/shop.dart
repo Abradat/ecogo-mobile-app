@@ -1,16 +1,18 @@
 import 'package:ecogo_mobile_app/services/shop_service.dart';
-import 'package:ecogo_mobile_app/widgets/general_card.dart';
+import 'package:ecogo_mobile_app/widgets/common/general_card.dart';
 import 'package:ecogo_mobile_app/widgets/shop/shop_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecogo_mobile_app/widgets/general_badge.dart';
+import 'package:ecogo_mobile_app/widgets/common/general_badge.dart';
 
-class Store extends StatefulWidget {
+class ShopScreen extends StatefulWidget {
+  const ShopScreen({Key? key}) : super(key: key);
+
   @override
-  _StoreState createState() => _StoreState();
+  _ShopScreenState createState() => _ShopScreenState();
 }
 
-class _StoreState extends State<Store> with TickerProviderStateMixin {
+class _ShopScreenState extends State<ShopScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   late ShopService shopService;
 
@@ -29,26 +31,34 @@ class _StoreState extends State<Store> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(
+              height: 8,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                GeneralBadge(
+              children: [
+                const GeneralBadge(
                   child: Text(
                     "⭐️ 9999 pts",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                GeneralBadge(
-                  child: Icon(
-                    Icons.clear,
-                    size: 20,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const GeneralBadge(
+                    child: Icon(
+                      Icons.clear,
+                      size: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 8,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -58,16 +68,15 @@ class _StoreState extends State<Store> with TickerProviderStateMixin {
               child: TabBar(
                   // padding: const EdgeInsets.symmetric(horizontal: 10),
                   controller: _tabController,
-                  unselectedLabelColor: Color(0xFFA9C9E9),
+                  labelPadding: EdgeInsets.symmetric(horizontal: 20),
+                  unselectedLabelColor: const Color(0xFFA9C9E9),
                   isScrollable: true,
-                  labelColor: Color(0xFF5073E6),
+                  labelColor: const Color(0xFF5073E6),
                   indicator: const BoxDecoration(
                     color: Color(0xFFECF0FF),
                   ),
                   tabs: const <Widget>[
-                    Tab(
-                      text: "Face",
-                    ),
+                    Tab(text: "Face"),
                     Tab(
                       text: "Top",
                     ),
@@ -90,10 +99,10 @@ class _StoreState extends State<Store> with TickerProviderStateMixin {
                     children: const <Widget>[
                       ShopList(),
                       Center(child: Text("Shayan")),
-                      Center(child: Text("Zhuaan")),
-                      Center(child: Text("Zhuaan")),
-                      Center(child: Text("Zhuaan")),
-                      Center(child: Text("Zhuaan")),
+                      Center(child: Text("Hello")),
+                      Center(child: Text("Hello")),
+                      Center(child: Text("Hello")),
+                      Center(child: Text("Hello")),
                     ]),
               ),
             ),

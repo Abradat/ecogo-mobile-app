@@ -1,3 +1,4 @@
+import 'package:ecogo_mobile_app/services/shop_service.dart';
 import 'package:ecogo_mobile_app/widgets/shop/shop_item.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,6 +10,14 @@ class ShopList extends StatefulWidget {
 }
 
 class _ShopListState extends State<ShopList> {
+  final ShopService shopService = ShopService();
+  late List<ShopItem> shopItems;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GridView.count(
