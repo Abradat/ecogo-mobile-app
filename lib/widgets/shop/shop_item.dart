@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ShopItem extends StatelessWidget {
+class ShopItemCard extends StatelessWidget {
   final String imageUrl;
-  final String clothName;
-  final int clothPrice;
+  final String name;
+  final int price;
 
-  ShopItem(
-      {required this.imageUrl,
-      required this.clothName,
-      required this.clothPrice});
+  ShopItemCard(
+      {required this.imageUrl, required this.name, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class ShopItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Text(
-                clothName,
+                name,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -48,7 +46,7 @@ class ShopItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Text(
-                "⭐️ $clothPrice pts",
+                "⭐️ $price pts",
                 style: const TextStyle(color: Color(0xFF466BE4)),
               ),
             ),
@@ -65,7 +63,7 @@ class ShopItem extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
         title: Text(
-          clothName,
+          name,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -93,7 +91,7 @@ class ShopItem extends StatelessWidget {
                   backgroundColor: const Color(0xFF466BE4),
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
               child: Text(
-                "Purchase with ⭐️ $clothPrice pts",
+                "Purchase with ⭐️ $price pts",
                 style: const TextStyle(color: Colors.white),
               ),
             )

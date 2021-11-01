@@ -30,6 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+                Expanded(
+                  flex: 1,
+                  child: const GeneralBadge(
+                    child: Text(
+                      "🪙 2222",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, '/shop');

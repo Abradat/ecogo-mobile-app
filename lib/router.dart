@@ -25,7 +25,7 @@ class AppRouter {
     router.define(
       '/shop',
       handler: _shopHandler,
-      transitionType: TransitionType.inFromBottom,
+      transitionType: TransitionType.nativeModal,
     );
   }
 }
