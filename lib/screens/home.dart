@@ -1,5 +1,6 @@
 import 'package:ecogo_mobile_app/widgets/common/general_badge.dart';
 import 'package:ecogo_mobile_app/widgets/common/general_card.dart';
+import 'package:ecogo_mobile_app/widgets/common/top_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,49 +17,48 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
+          fit: StackFit.loose,
           children: [
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                const GeneralBadge(
-                  child: Text(
-                    "⭐️ 9999 pts",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: const GeneralBadge(
-                    child: Text(
-                      "🪙 2222",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/shop');
-                  },
-                  child: const GeneralBadge(
-                    child: Text(
-                      "🛍 Shop",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Expanded(
-                child: const GeneralCard(
+            const GeneralCard(
+              topRight: Radius.zero,
+              topLeft: Radius.zero,
               child: Text('Salam'),
-            ))
+            ),
+            Positioned(
+              child: TopBar(
+                child: Row(
+                  children: [
+                    const GeneralBadge(
+                      child: Text(
+                        "⭐️ 9999 pts",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const Expanded(
+                      flex: 1,
+                      child: GeneralBadge(
+                        child: Text(
+                          "🪙 2222",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/shop');
+                      },
+                      child: const GeneralBadge(
+                        child: Text(
+                          "🛍 Shop",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

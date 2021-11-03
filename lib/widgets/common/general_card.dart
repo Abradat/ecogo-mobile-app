@@ -20,16 +20,20 @@ class GeneralCard extends StatefulWidget {
 class _GeneralCardState extends State<GeneralCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFECF0FF),
-        borderRadius: BorderRadius.only(
-          topRight: widget.topRight,
-          topLeft: widget.topLeft,
+    return FractionallySizedBox(
+      widthFactor: 1.0,
+      heightFactor: 1.0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFFECF0FF),
+          borderRadius: BorderRadius.only(
+            topRight: widget.topRight,
+            topLeft: widget.topLeft,
+          ),
         ),
+        padding: EdgeInsets.all(20),
+        child: widget.child,
       ),
-      padding: EdgeInsets.all(20),
-      child: widget.child,
     );
   }
 }
