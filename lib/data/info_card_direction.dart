@@ -1,0 +1,1 @@
+enum InfoCardDirection { left, right }

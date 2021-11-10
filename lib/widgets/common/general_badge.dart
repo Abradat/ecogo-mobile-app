@@ -23,12 +23,14 @@ class _GeneralBadgeState extends State<GeneralBadge> {
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Color(0xFF538CDE),
+        gradient: LinearGradient(colors: [
+          Color(0xFF4C79DF),
+          Color(0XFF5796DB),
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
       ),
       padding: widget.padding,
       margin: widget.margin,
-      // height: 30,
       child: widget.child,
     );
-    ;
   }
 }

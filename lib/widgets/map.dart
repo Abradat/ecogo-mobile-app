@@ -58,6 +58,7 @@ class _MapState extends State<Map> {
       //     target: LatLng(_userLocation.latitude!, _userLocation.longitude!),
       //     zoom: 11.0),
       initialCameraPosition: CameraPosition(target: _initialcameraposition),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 12),
     );
   }
 }

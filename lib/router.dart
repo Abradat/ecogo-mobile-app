@@ -1,4 +1,5 @@
 import 'package:ecogo_mobile_app/screens/home.dart';
+import 'package:ecogo_mobile_app/screens/search.dart';
 import 'package:ecogo_mobile_app/screens/shop.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,12 @@ class AppRouter {
       return const ShopScreen();
     },
   );
+
+  static final Handler _searchHandler = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const SearchScreen();
+    },
+  );
   static void setupRouter() {
     router.define(
       '/',
@@ -27,5 +34,7 @@ class AppRouter {
       handler: _shopHandler,
       transitionType: TransitionType.nativeModal,
     );
+    router.define('/search',
+        handler: _searchHandler, transitionType: TransitionType.fadeIn);
   }
 }
