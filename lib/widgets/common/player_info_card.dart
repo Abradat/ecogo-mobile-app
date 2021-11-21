@@ -6,14 +6,12 @@ class PlayerInfoCard extends StatelessWidget {
   final InfoCardDirection direction;
   final Widget firstRow;
   final Widget? secondRow;
-  final Image image;
   final Widget? imageBadge;
   final double widthFactor;
   const PlayerInfoCard(
       {required this.direction,
       required this.firstRow,
       this.secondRow,
-      required this.image,
       this.imageBadge,
       this.widthFactor = 0.49})
       : super();
@@ -51,11 +49,11 @@ class PlayerInfoCard extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  firstRow,
-                  if (secondRow != null) secondRow!,
+                  Expanded(child: firstRow),
+                  if (secondRow != null) Expanded(child: secondRow!),
                 ],
               ),
             ),

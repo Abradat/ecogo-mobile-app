@@ -21,6 +21,7 @@ class _MapState extends State<Map> {
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
 
   void _onMapCreated(GoogleMapController controller) {
+    _getCurrentLocation();
     _controller.complete(controller);
     _location.onLocationChanged.listen((newLocation) async {
       GoogleMapController controller = await _controller.future;
@@ -53,10 +54,6 @@ class _MapState extends State<Map> {
     return GoogleMap(
       myLocationEnabled: true,
       onMapCreated: _onMapCreated,
-      // initialCameraPosition: CameraPosition(target: _initialcameraposition),
-      // initialCameraPosition: CameraPosition(
-      //     target: LatLng(_userLocation.latitude!, _userLocation.longitude!),
-      //     zoom: 11.0),
       initialCameraPosition: CameraPosition(target: _initialcameraposition),
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 12),
     );

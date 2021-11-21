@@ -26,25 +26,30 @@ class _StepperCardState extends State<StepperCard> {
         children: [
           Expanded(
             flex: 1,
-            child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF1D8A49),
-                    Color(0XFF29CE6B),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/shop');
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF1D8A49),
+                      Color(0XFF29CE6B),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
-              ),
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: MediaQuery.of(context).size.height / 25,
-                child: SvgPicture.asset(
-                  'assets/icons/shoe.svg',
-                  color: Colors.white,
-                  height: 40,
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: MediaQuery.of(context).size.height / 25,
+                  child: SvgPicture.asset(
+                    'assets/icons/shoe.svg',
+                    color: Colors.white,
+                    height: 40,
+                  ),
                 ),
               ),
             ),
