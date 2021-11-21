@@ -1,6 +1,7 @@
 import 'package:ecogo_mobile_app/data/navigation/destination.dart';
 import 'package:ecogo_mobile_app/screens/home.dart';
 import 'package:ecogo_mobile_app/screens/navigation.dart';
+import 'package:ecogo_mobile_app/screens/profile/profile.dart';
 import 'package:ecogo_mobile_app/screens/search.dart';
 import 'package:ecogo_mobile_app/screens/shop.dart';
 import 'package:fluro/fluro.dart';
@@ -25,6 +26,12 @@ class AppRouter {
   static final Handler _searchHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
       return const SearchScreen();
+    },
+  );
+
+  static final Handler _profileHandler = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const ProfileScreen();
     },
   );
   static final Handler _navigationHandler = Handler(
@@ -56,10 +63,15 @@ class AppRouter {
       handler: _shopHandler,
       transitionType: TransitionType.nativeModal,
     );
+
     router.define('/search',
         handler: _searchHandler, transitionType: TransitionType.fadeIn);
+
     router.define('/navigation',
         handler: _navigationHandler,
         transitionType: TransitionType.inFromRight);
+
+    router.define('/profile',
+        handler: _profileHandler, transitionType: TransitionType.inFromRight);
   }
 }

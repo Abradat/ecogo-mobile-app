@@ -183,24 +183,29 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            // margin: EdgeInsets.only(right: 10),
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                // color: badgeColor,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFF5796DB),
-                                    Color(0xFF4C79DF),
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                )),
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.transparent,
-                              child: Image(
-                                image: AssetImage("assets/icons/player.png"),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/profile');
+                            },
+                            child: Container(
+                              // margin: EdgeInsets.only(right: 10),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  // color: badgeColor,
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFF5796DB),
+                                      Color(0xFF4C79DF),
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  )),
+                              child: const CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.transparent,
+                                child: Image(
+                                  image: AssetImage("assets/icons/player.png"),
+                                ),
                               ),
                             ),
                           ),

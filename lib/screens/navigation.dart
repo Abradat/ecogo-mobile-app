@@ -34,15 +34,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
             alignment: Alignment.bottomCenter,
             child: Column(
               children: [
-                if (navigationStarted) SafeArea(child: DirectionsCard()),
+                if (navigationStarted) const SafeArea(child: DirectionsCard()),
                 Expanded(
                   flex: 1,
                   child: Container(),
                 ),
                 if (navigationStarted)
                   Container(
-                    child: StepperCard(),
-                    margin: EdgeInsets.only(bottom: 10),
+                    child: const StepperCard(),
+                    margin: const EdgeInsets.only(bottom: 10),
                   ),
                 NavigationPrompt(
                   startClicked: () {
