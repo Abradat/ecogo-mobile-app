@@ -1,4 +1,7 @@
+import 'package:ecogo_mobile_app/screens/profile/friends.dart';
+import 'package:ecogo_mobile_app/widgets/profile/badge.dart';
 import 'package:ecogo_mobile_app/widgets/profile/control_button.dart';
+import 'package:ecogo_mobile_app/widgets/profile/profile_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +29,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           SafeArea(
+            bottom: false,
             child: Column(
               children: [
                 Container(
@@ -91,19 +95,104 @@ class ProfileScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     color: Colors.white,
-                    child: Column(
+                    child: ListView(
                       children: [
+                        // Friends Section
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Achivements",
+                                  const Text(
+                                    "Friends",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          builder: (BuildContext context) {
+                                            return FriendsBottomSheet();
+                                          });
+                                    },
+                                    child: Text(
+                                      "More",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black.withOpacity(0.4),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    ProfileOverview(
+                                      userCode: "10000",
+                                      username: "Sachit",
+                                      level: 20,
+                                      image:
+                                          "assets/images/profile/sample_profile_pic.png",
+                                    ),
+                                    ProfileOverview(
+                                      userCode: "10000",
+                                      username: "Sachit",
+                                      level: 20,
+                                      image:
+                                          "assets/images/profile/sample_profile_pic.png",
+                                    ),
+                                    ProfileOverview(
+                                      userCode: "10000",
+                                      username: "Sachit",
+                                      level: 20,
+                                      image:
+                                          "assets/images/profile/sample_profile_pic.png",
+                                    ),
+                                    ProfileOverview(
+                                      userCode: "10000",
+                                      username: "Sachit",
+                                      level: 20,
+                                      image:
+                                          "assets/images/profile/sample_profile_pic.png",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          height: 10,
+                          thickness: 1,
+                          indent: 20,
+                          endIndent: 20,
+                        ),
+
+                        // Achievements Section
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Achievements",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
@@ -118,7 +207,101 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Row(),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: const [
+                                        Text(
+                                          "2312",
+                                          style: TextStyle(
+                                            color: Color(0xFF29CE6B),
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Daily Steps",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        const Divider(
+                          height: 10,
+                          thickness: 1,
+                          indent: 20,
+                          endIndent: 20,
+                        ),
+
+                        // Badges Section
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Badges",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    "More",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(0.4),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Badge(
+                                    locked: false,
+                                    image: "king.png",
+                                    title: "Walking King",
+                                    progress: 1000,
+                                    required: 1000,
+                                  ),
+                                  Badge(
+                                    locked: true,
+                                    image: "king.png",
+                                    title: "Walking Master",
+                                    progress: 1000,
+                                    required: 5000,
+                                  ),
+                                  Badge(
+                                    locked: true,
+                                    image: "king.png",
+                                    title: "Challenger",
+                                    progress: 1000,
+                                    required: 10000,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),

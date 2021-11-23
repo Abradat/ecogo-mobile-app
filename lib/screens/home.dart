@@ -219,7 +219,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.pushNamed(context, '/search');
                         },
                         child: Container(
-                          // height: 48,
+                          // height: 30,
                           // margin: EdgeInsets.only(top: 10),
                           decoration: BoxDecoration(
                             color: const Color(0xFF000000).withOpacity(0.06),
