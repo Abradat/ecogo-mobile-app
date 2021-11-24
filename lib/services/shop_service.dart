@@ -5,8 +5,8 @@ class ShopService {
     return Future.delayed(
         const Duration(seconds: 1),
         () => [
-              ShopItem("sample-shirt.png", "Sachit's shirt", 1000),
-              ShopItem("sample-shirt.png", "Shayan's shirt", 4000)
+              ShopItem("Shirt 1.png", "Sachit's shirt", 1000),
+              ShopItem("Shirt 2.png", "Shayan's shirt", 4000),
             ]);
   }
 }

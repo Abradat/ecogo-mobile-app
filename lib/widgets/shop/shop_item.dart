@@ -16,39 +16,40 @@ class ShopItemCard extends StatelessWidget {
         _showDialog(context);
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 5,
-        ),
         padding: const EdgeInsets.symmetric(horizontal: 1),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 4,
               child: Image(
-                image: AssetImage("assets/images/$imageUrl"),
-                fit: BoxFit.fill,
+                image: AssetImage("assets/images/character/top/$imageUrl"),
+                // fit: BoxFit.fill,
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                name,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  letterSpacing: 0.1,
-                  wordSpacing: 0.1,
+            Text(
+              name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                color: Color(0xFF727272),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage("assets/icons/coin.png"),
+                  width: 20,
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                "⭐️ $price pts",
-                style: const TextStyle(color: Color(0xFF466BE4)),
-              ),
+                Text(
+                  price.toString(),
+                  style: const TextStyle(
+                      color: Color(0xFF464646),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14),
+                ),
+              ],
             ),
           ],
         ),

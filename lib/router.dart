@@ -3,7 +3,7 @@ import 'package:ecogo_mobile_app/screens/home.dart';
 import 'package:ecogo_mobile_app/screens/navigation.dart';
 import 'package:ecogo_mobile_app/screens/profile/profile.dart';
 import 'package:ecogo_mobile_app/screens/search.dart';
-import 'package:ecogo_mobile_app/screens/shop.dart';
+import 'package:ecogo_mobile_app/screens/shop/shop.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

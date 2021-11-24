@@ -1,6 +1,6 @@
 import 'package:ecogo_mobile_app/screens/profile/friends.dart';
 import 'package:ecogo_mobile_app/widgets/profile/badge.dart';
-import 'package:ecogo_mobile_app/widgets/profile/control_button.dart';
+import 'package:ecogo_mobile_app/widgets/common/control_button.dart';
 import 'package:ecogo_mobile_app/widgets/profile/profile_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

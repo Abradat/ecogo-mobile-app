@@ -133,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                 bottom: false,
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       flex: 1,
@@ -212,45 +212,42 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/search');
-                        },
-                        child: Container(
-                          // height: 30,
-                          // margin: EdgeInsets.only(top: 10),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF000000).withOpacity(0.06),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/search');
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        // height: 30,
+                        // margin: EdgeInsets.only(top: 30),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF000000).withOpacity(0.06),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
                           ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(8, 0, 1, 0),
-                                child: Icon(
-                                  Icons.place_outlined,
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(8, 0, 1, 0),
+                              child: Icon(
+                                Icons.place_outlined,
+                                color: const Color(0xFF000000).withOpacity(0.4),
+                                size: 25,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Set Your Destination and Get x2 Bonus',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
                                   color:
                                       const Color(0xFF000000).withOpacity(0.4),
-                                  size: 25,
+                                  fontSize: 16,
                                 ),
                               ),
-                              Expanded(
-                                child: Text(
-                                  'Set Your Destination and Get x2 Bonus',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: const Color(0xFF000000)
-                                        .withOpacity(0.4),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -262,11 +259,14 @@ class HomeScreen extends StatelessWidget {
 
           // Stepper Card
           const SafeArea(
+            // TODO: Fix for android margin
             child: Align(
               alignment: Alignment.bottomCenter,
               child: StepperCard(),
             ),
           ),
+
+          // Todo: Add AR and Current Location buttons on the map
         ],
       ),
     );

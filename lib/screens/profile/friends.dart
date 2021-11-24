@@ -1,5 +1,5 @@
 import 'package:ecogo_mobile_app/widgets/common/bottom_sheet_card.dart';
-import 'package:ecogo_mobile_app/widgets/profile/control_button.dart';
+import 'package:ecogo_mobile_app/widgets/common/control_button.dart';
 import 'package:ecogo_mobile_app/widgets/profile/friends/friend_request_list.dart';
 import 'package:ecogo_mobile_app/widgets/profile/friends/friends_list.dart';
 import 'package:flutter/cupertino.dart';
