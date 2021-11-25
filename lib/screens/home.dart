@@ -24,106 +24,6 @@ class HomeScreen extends StatelessWidget {
             child: const Map(),
           ),
 
-          // // Profile Info Card
-          // SafeArea(
-          //   child: Align(
-          //     alignment: Alignment.topRight,
-          //     child: PlayerInfoCard(
-          //       direction: InfoCardDirection.right,
-          //       image: Image.network(
-          //           "https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png"),
-          //       firstRow: Row(
-          //         children: const [
-          //           GeneralBadge(
-          //             margin: EdgeInsets.fromLTRB(10, 0, 5, 0),
-          //             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-          //             child: Text(
-          //               "Lv. 3",
-          //               style: TextStyle(
-          //                   fontWeight: FontWeight.w700,
-          //                   color: Colors.white,
-          //                   fontSize: 14),
-          //             ),
-          //           ),
-          //           Text(
-          //             "Tommy",
-          //             style: TextStyle(
-          //                 fontWeight: FontWeight.w700,
-          //                 fontSize: 20,
-          //                 color: Color(0xFF464646)),
-          //           )
-          //         ],
-          //       ),
-          //       secondRow: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: const [
-          //           Image(
-          //             image: AssetImage("assets/icons/coin.png"),
-          //             height: 24,
-          //             width: 24,
-          //           ),
-          //           Text(
-          //             "252,000",
-          //             style: TextStyle(
-          //               fontSize: 20,
-          //               fontWeight: FontWeight.w700,
-          //               color: Color(0xFF464646),
-          //             ),
-          //           )
-          //         ],
-          //       ),
-          //       widthFactor: 0.55,
-          //     ),
-          //   ),
-          // ),
-          //
-          // // Resources Card
-          // SafeArea(
-          //   child: Align(
-          //     alignment: Alignment.topLeft,
-          //     child: PlayerInfoCard(
-          //       direction: InfoCardDirection.left,
-          //       image: Image.network(
-          //           "https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png"),
-          //       firstRow: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         children: [
-          //           const Image(
-          //             height: 20,
-          //             width: 20,
-          //             fit: BoxFit.cover,
-          //             image: AssetImage(
-          //               "assets/icons/red_gem.png",
-          //             ),
-          //           ),
-          //           const Text(
-          //             "150",
-          //             style: TextStyle(
-          //                 fontWeight: FontWeight.w700,
-          //                 fontSize: 20,
-          //                 color: Color(0xFF464646)),
-          //           ),
-          //         ],
-          //       ),
-          //       secondRow: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: const [
-          //           Icon(Icons.ten_k),
-          //           Text(
-          //             "150",
-          //             style: TextStyle(
-          //                 fontWeight: FontWeight.w700,
-          //                 fontSize: 20,
-          //                 color: Color(0xFF464646)),
-          //           ),
-          //         ],
-          //       ),
-          //       widthFactor: 0.4,
-          //     ),
-          //   ),
-          // ),
-
           // Location Search Widget
           Align(
             alignment: Alignment.topCenter,
@@ -132,54 +32,66 @@ class HomeScreen extends StatelessWidget {
               child: SafeArea(
                 bottom: false,
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       flex: 1,
                       child: Row(
                         children: [
                           Expanded(
-                            child: InfoCard(
-                              badge: SvgPicture.asset("assets/icons/tree.svg"),
-                              badgeColor: Color(0xFFB7F281),
-                              content: Row(
-                                children: [
-                                  const Text(
-                                    "Lv. 1",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      color: Color(0xFF464646),
-                                    ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/tree-house");
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: InfoCard(
+                                  badge:
+                                      SvgPicture.asset("assets/icons/tree.svg"),
+                                  badgeColor: Color(0xFFB7F281),
+                                  content: Row(
+                                    children: [
+                                      const Text(
+                                        "Lv. 1",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Color(0xFF464646),
+                                        ),
+                                      ),
+                                      Text(
+                                        " | 10 m",
+                                        style: TextStyle(
+                                          color: Color(0xFF000000)
+                                              .withOpacity(0.4),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    " | 10 m",
-                                    style: TextStyle(
-                                      color: Color(0xFF000000).withOpacity(0.4),
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                           ),
                           Expanded(
-                            child: InfoCard(
-                              content: Row(
-                                children: const [
-                                  Image(
-                                    image: AssetImage("assets/icons/coin.png"),
-                                  ),
-                                  Text(
-                                    "150",
-                                    style: TextStyle(
-                                      color: Color(0xFF464646),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
+                            child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: InfoCard(
+                                content: Row(
+                                  children: const [
+                                    Image(
+                                      image:
+                                          AssetImage("assets/icons/coin.png"),
                                     ),
-                                  )
-                                ],
+                                    Text(
+                                      "150",
+                                      style: TextStyle(
+                                        color: Color(0xFF464646),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -217,6 +129,7 @@ class HomeScreen extends StatelessWidget {
                         Navigator.pushNamed(context, '/search');
                       },
                       child: Container(
+                        margin: EdgeInsets.only(bottom: 6),
                         padding: EdgeInsets.symmetric(vertical: 12),
                         // height: 30,
                         // margin: EdgeInsets.only(top: 30),

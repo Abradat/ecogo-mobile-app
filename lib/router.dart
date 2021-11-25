@@ -4,6 +4,7 @@ import 'package:ecogo_mobile_app/screens/navigation.dart';
 import 'package:ecogo_mobile_app/screens/profile/profile.dart';
 import 'package:ecogo_mobile_app/screens/search.dart';
 import 'package:ecogo_mobile_app/screens/shop/shop.dart';
+import 'package:ecogo_mobile_app/screens/tree_house.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -34,6 +35,13 @@ class AppRouter {
       return const ProfileScreen();
     },
   );
+
+  static final Handler _treeHouseHandler = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const TreeHouseScreen();
+    },
+  );
+
   static final Handler _navigationHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
       var name = params['name']?.first;
@@ -73,5 +81,8 @@ class AppRouter {
 
     router.define('/profile',
         handler: _profileHandler, transitionType: TransitionType.inFromRight);
+
+    router.define('/tree-house',
+        handler: _treeHouseHandler, transitionType: TransitionType.nativeModal);
   }
 }

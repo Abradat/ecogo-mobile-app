@@ -17,7 +17,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 10, bottom: 5),
+      // margin: EdgeInsets.only(right: 10),
       padding: badge == null
           ? EdgeInsets.symmetric(horizontal: 10, vertical: 10)
           : null,

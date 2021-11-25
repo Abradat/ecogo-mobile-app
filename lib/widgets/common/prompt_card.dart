@@ -24,7 +24,7 @@ class _PromptCardState extends State<PromptCard> {
       widthFactor: 1.0,
       heightFactor: widget.heightFactor,
       child: Container(
-        padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
+        padding: EdgeInsets.fromLTRB(15, 0, 15, 5),
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(1.0),
