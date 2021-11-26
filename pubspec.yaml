@@ -67,6 +67,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/tree_house/
+    - assets/images/tree_house/furniture/
     - assets/images/character/top/
     - assets/images/profile/
     - assets/images/profile/badge/

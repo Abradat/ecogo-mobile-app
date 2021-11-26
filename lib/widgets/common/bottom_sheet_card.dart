@@ -5,18 +5,20 @@ class BottomSheetCard extends StatelessWidget {
   final String title;
   final Widget? action;
   final Widget child;
+  final double heightRatio;
   const BottomSheetCard({
     Key? key,
     required this.title,
     this.action,
     required this.child,
+    this.heightRatio = 0.8,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * heightRatio,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -60,18 +62,24 @@ class BottomSheetCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Text(
-                          title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                            color: Colors.black,
+                        child: Container(
+                          child: Text(
+                            title,
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
                           ),
+                          padding: EdgeInsets.only(left: 10),
                         ),
                       ),
                       action!,
                     ],
+                  ),
+                  SizedBox(
+                    height: 6,
                   ),
                   const Divider(
                     height: 10,

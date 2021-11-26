@@ -1,5 +1,5 @@
 import 'package:ecogo_mobile_app/data/shop/category.dart';
-import 'package:ecogo_mobile_app/data/shop_item.dart';
+import 'package:ecogo_mobile_app/data/shop/shop_item.dart';
 import 'package:ecogo_mobile_app/widgets/shop/shop_item.dart';
 import 'package:ecogo_mobile_app/services/shop_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,40 +64,7 @@ class _ShopListState extends State<ShopList> {
                           price: item.itemPrice,
                         ))
                     .toList()
-                : []
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2021",
-            //     clothPrice: 100),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2020",
-            //     clothPrice: 10),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2019",
-            //     clothPrice: 200),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2018",
-            //     clothPrice: 1000),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2018",
-            //     clothPrice: 200),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2023",
-            //     clothPrice: 10),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2022",
-            //     clothPrice: 500),
-            // ShopItemCard(
-            //     imageUrl: "sample-shirt.png",
-            //     clothName: "new collection 2028",
-            //     clothPrice: 1200),
-            ,
+                : [],
           ),
         ),
       ],

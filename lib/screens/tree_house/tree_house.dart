@@ -1,3 +1,9 @@
+import 'package:ecogo_mobile_app/data/tree_house/appliance_category.dart';
+import 'package:ecogo_mobile_app/screens/profile/friends.dart';
+import 'package:ecogo_mobile_app/widgets/tree_house/appliance_bottom_sheet.dart';
+import 'package:ecogo_mobile_app/widgets/tree_house/appliance_catalogue.dart';
+import 'package:ecogo_mobile_app/widgets/tree_house/appliance_list.dart';
+import 'package:ecogo_mobile_app/widgets/tree_house/door_bottom_sheet.dart';
 import 'package:ecogo_mobile_app/widgets/common/control_button.dart';
 import 'package:ecogo_mobile_app/widgets/common/info_card.dart';
 import 'package:ecogo_mobile_app/widgets/common/prompt_card.dart';
@@ -111,13 +117,24 @@ class _TreeHouseScreenState extends State<TreeHouseScreen> {
               ),
             ),
           ),
-          const Align(
+
+          // Tree House
+          Align(
             alignment: Alignment.bottomCenter,
-            child: Image(
-              fit: BoxFit.fill,
-              image: AssetImage("assets/images/tree_house/tree_house.png"),
+            child: SafeArea(
+              bottom: false,
+              child: Container(
+                width: double.infinity,
+                // height: double.infinity,
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: AssetImage("assets/images/tree_house/tree_house.png"),
+                ),
+              ),
             ),
           ),
+
+          // Control Buttons
           Align(
             alignment: FractionalOffset(0, 0.13),
             child: Container(
@@ -155,7 +172,96 @@ class _TreeHouseScreenState extends State<TreeHouseScreen> {
                 ],
               ),
             ),
-          )
+          ),
+
+          // Edit windows
+          if (_inEdit)
+            SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: FractionalOffset(
+                      0.55,
+                      0.68,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return ApplianceBottomSheet(
+                                content: ApplianceList(
+                                  category: ApplianceCategory.door,
+                                ),
+                              );
+                            });
+                      },
+                      child: Image(
+                        image: AssetImage(
+                            "assets/images/tree_house/furniture_window.png"),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: FractionalOffset(
+                      0.56,
+                      0.53,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return ApplianceBottomSheet(
+                                content: ApplianceCatalogue(),
+                              );
+                            });
+                      },
+                      child: Image(
+                        image: AssetImage(
+                            "assets/images/tree_house/add_furniture_window.png"),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: FractionalOffset(
+                      0.2,
+                      0.53,
+                    ),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/images/tree_house/add_furniture_window.png"),
+                    ),
+                  ),
+                  Align(
+                    alignment: FractionalOffset(
+                      0.87,
+                      0.51,
+                    ),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/images/tree_house/add_furniture_window.png"),
+                    ),
+                  ),
+                  Align(
+                    alignment: FractionalOffset(
+                      0.77,
+                      0.4,
+                    ),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/images/tree_house/add_furniture_window.png"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
