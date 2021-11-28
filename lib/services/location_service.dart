@@ -25,6 +25,7 @@ class LocationService {
         return null;
       }
     }
+    print("waiting");
     _locationData = await location.getLocation();
     return _locationData;
   }

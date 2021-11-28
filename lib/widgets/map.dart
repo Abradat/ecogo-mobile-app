@@ -5,24 +5,27 @@ import 'package:ecogo_mobile_app/services/location_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class Map extends StatefulWidget {
   const Map({Key? key}) : super(key: key);
 
   @override
-  _MapState createState() => _MapState();
+  MapState createState() => MapState();
 }
 
-class _MapState extends State<Map> {
+class MapState extends State<Map> {
   final Completer<GoogleMapController> _controller = Completer();
   final LocationService _locationService = LocationService();
   final Location _location = Location();
+  late String _mapStyle;
   LocationData? _userLocation;
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
 
   void _onMapCreated(GoogleMapController controller) {
-    _getCurrentLocation();
-    _controller.complete(controller);
+    getCurrentLocation();
+    controller.setMapStyle(_mapStyle);
+
     _location.onLocationChanged.listen((newLocation) async {
       GoogleMapController controller = await _controller.future;
       controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -31,9 +34,14 @@ class _MapState extends State<Map> {
             zoom: 15),
       ));
     });
+    _controller.complete(controller);
   }
 
-  void _getCurrentLocation() async {
+  Future<GoogleMapController> _getController() async {
+    return await _controller.future;
+  }
+
+  void getCurrentLocation() async {
     _userLocation = await _locationService.getLocation();
     GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -46,13 +54,17 @@ class _MapState extends State<Map> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
+    // getCurrentLocation();
   }
 
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
       myLocationEnabled: true,
+      myLocationButtonEnabled: false,
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(target: _initialcameraposition),
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 12),

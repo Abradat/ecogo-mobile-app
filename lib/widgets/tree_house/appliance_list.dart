@@ -18,6 +18,7 @@ class ApplianceList extends StatefulWidget {
 class _ApplianceListState extends State<ApplianceList> {
   final ApplianceService _applianceService = ApplianceService();
   List<ApplianceItemData>? applianceItems;
+  int _selectedItemIndex = 0;
 
   Future<void> getItemData() async {
     final response = await _applianceService.getApplianceItems(widget.category);
@@ -26,11 +27,6 @@ class _ApplianceListState extends State<ApplianceList> {
         applianceItems = response;
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -76,10 +72,12 @@ class _ApplianceListState extends State<ApplianceList> {
                           imageUrl: item.imageUrl,
                           price: item.price,
                           purchased: item.purchased,
-                          selected: () {
-                            print("item with id " +
-                                item.id.toString() +
-                                " clicked");
+                          isSelected:
+                              _selectedItemIndex == item.id - 1 ? true : false,
+                          selected: (int index) {
+                            setState(() {
+                              _selectedItemIndex = index;
+                            });
                           },
                         ),
                       )

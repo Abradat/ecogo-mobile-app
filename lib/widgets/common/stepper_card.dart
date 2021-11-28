@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'dart:io' show Platform;
 
 class StepperCard extends StatefulWidget {
   const StepperCard({Key? key}) : super(key: key);
@@ -14,6 +15,8 @@ class _StepperCardState extends State<StepperCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin:
+          Platform.isAndroid ? EdgeInsets.only(bottom: 30) : EdgeInsets.zero,
       height: MediaQuery.of(context).size.height / 12,
       width: MediaQuery.of(context).size.width - 50,
       decoration: BoxDecoration(

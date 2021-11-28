@@ -7,8 +7,9 @@ class ApplianceItem extends StatefulWidget {
   final int id;
   final String imageUrl;
   final int price;
-  final VoidCallback selected;
+  final Function(int) selected;
   final bool purchased;
+  final bool isSelected;
   const ApplianceItem(
       {Key? key,
       required this.index,
@@ -16,7 +17,8 @@ class ApplianceItem extends StatefulWidget {
       required this.selected,
       required this.imageUrl,
       required this.price,
-      required this.purchased})
+      required this.purchased,
+      this.isSelected = false})
       : super(key: key);
 
   @override
@@ -26,46 +28,67 @@ class ApplianceItem extends StatefulWidget {
 class _ApplianceItemState extends State<ApplianceItem> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Color(0xFFE7E7E7),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(
-            image: AssetImage(
-                "assets/images/tree_house/furniture/" + widget.imageUrl),
-            height: MediaQuery.of(context).size.width / 6,
-            width: MediaQuery.of(context).size.width / 6,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage("assets/icons/coin.png"),
-                ),
-                const SizedBox(
-                  width: 3,
-                ),
-                Text(
-                  widget.price.toString(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          widget.selected(widget.index);
+        });
+      },
+      child: Container(
+        // padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: widget.isSelected
+              ? Border.all(color: Color(0xFFFFBC08), width: 3)
+              : null,
+          color: Color(0xFFE7E7E7),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage(
+                  "assets/images/tree_house/furniture/" + widget.imageUrl),
+              height: MediaQuery.of(context).size.width / 6,
+              width: MediaQuery.of(context).size.width / 6,
             ),
-          ),
-        ],
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (!widget.purchased)
+                    Image(
+                      image: AssetImage("assets/icons/coin.png"),
+                    ),
+                  if (!widget.purchased)
+                    const SizedBox(
+                      width: 3,
+                    ),
+                  !widget.purchased
+                      ? Text(
+                          widget.price.toString(),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : Text(
+                          "Owned",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFBEBEBE),
+                          ),
+                        ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

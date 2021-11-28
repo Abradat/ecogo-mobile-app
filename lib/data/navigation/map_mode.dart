@@ -1,1 +1,1 @@
-enum MapMode { NAVIGATION, NORMAL }
+enum MapMode { navigation, normal }
