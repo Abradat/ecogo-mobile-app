@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.thecdm.ecogo_mobile_app">
    <application
-        android:label="ecogo_mobile_app"
+        android:label="EcoGo"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:ecogo_mobile_app/data/constant/google_maps_constants.dart';
 import 'package:ecogo_mobile_app/data/navigation/destination.dart';
 import 'package:ecogo_mobile_app/services/location_service.dart';
+import 'package:ecogo_mobile_app/services/navigation_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,9 +23,12 @@ class MapNavigation extends StatefulWidget {
 class MapNavigationState extends State<MapNavigation> {
   final Completer<GoogleMapController> _controller = Completer();
   final LocationService _locationService = LocationService();
+  final NavigationService _navigationService = NavigationService();
   // final Location _location = Location();
   late String _mapStyle;
   late Position _userLocation;
+  late Position _userTempLocation;
+  bool arrived = false;
 
   final LocationSettings locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.high,
@@ -166,12 +170,23 @@ class MapNavigationState extends State<MapNavigation> {
     positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
-      _userLocation = position;
+      _userTempLocation = position;
       controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: LatLng(_userLocation.latitude, _userLocation.longitude),
+            target:
+                LatLng(_userTempLocation.latitude, _userTempLocation.longitude),
             zoom: 18),
       ));
+      double remainingDistance = _navigationService.coordinateDistance(
+          _userTempLocation.latitude,
+          _userTempLocation.longitude,
+          widget.destination.location.latitude,
+          widget.destination.location.longitude);
+
+      if (remainingDistance < 0.03 && !arrived) {
+        arrived = true;
+        _showDialog(context);
+      }
     });
   }
 
@@ -210,5 +225,50 @@ class MapNavigationState extends State<MapNavigation> {
       initialCameraPosition: CameraPosition(target: _initialcameraposition),
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 12),
     );
+  }
+
+  _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+        title: Text(
+          "Congrats",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        titleTextStyle: const TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("You arrived at " + widget.destination.name + " !"),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFF466BE4),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
+              child: Text(
+                "Claim your reward",
+                style: const TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      ),
+    ).then((value) => stopTracking());
   }
 }
