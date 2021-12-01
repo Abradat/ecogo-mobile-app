@@ -2,16 +2,24 @@ import 'dart:core';
 import 'dart:developer';
 
 import 'package:ecogo_mobile_app/data/navigation/destination.dart';
+import 'package:ecogo_mobile_app/repository/destination/destination_repository.dart';
+import 'package:ecogo_mobile_app/services/location_service.dart';
 import 'package:ecogo_mobile_app/widgets/navigation/destination_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class NavigationPrompt extends StatefulWidget {
   final double hfact = 0.8;
   final Function? startClicked;
   final Function? stopClicked;
-  const NavigationPrompt({Key? key, this.startClicked, this.stopClicked})
+  final Destination destination;
+  const NavigationPrompt(
+      {Key? key,
+      this.startClicked,
+      this.stopClicked,
+      required this.destination})
       : super(key: key);
 
   @override
@@ -19,10 +27,39 @@ class NavigationPrompt extends StatefulWidget {
 }
 
 class _NavigationPromptState extends State<NavigationPrompt> {
+  final LocationService _locationService = LocationService();
+  final DestinationRepository _destinationRepository = DestinationRepository();
+
   bool started = false;
+  bool isCalculating = true;
   int heightFactor = 3;
-  Destination destination = Destination("Tim Hortons", "685 Great Northern Way",
-      const LatLng(49.26290268543555, -123.0876085427132), 1000, 10);
+  late Position _userLocation;
+  late double _distance;
+  late int _time;
+  late int _score;
+  late int _reward;
+  bool calculated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
+  void getCurrentLocation() async {
+    _userLocation = await _locationService.determinePosition();
+    setState(() {
+      _distance = _locationService.coordinateDistance(
+          _userLocation.latitude,
+          _userLocation.longitude,
+          widget.destination.location.latitude,
+          widget.destination.location.longitude);
+      _time = _locationService.calculateNavigationTime(_distance);
+      _reward = _locationService.calculateReward(_distance);
+      _score = _locationService.calculateScore(_distance);
+      calculated = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +82,14 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              destination.name,
+                              widget.destination.name,
                               style: TextStyle(
                                   color: Color(0xFF555555),
                                   fontSize: 24,
                                   fontWeight: FontWeight.w700),
                             ),
                             Text(
-                              destination.address,
+                              widget.destination.address,
                               style: TextStyle(
                                 color: Color(0xFF000000).withOpacity(0.6),
                                 fontSize: 14,
@@ -66,7 +103,9 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                         padding: EdgeInsets.all(3),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            if (!started) {
+                              Navigator.pop(context);
+                            }
                           },
                           child: const Icon(
                             Icons.close,
@@ -82,11 +121,16 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                     ],
                   ),
                 ),
-                Container(
-                  child: DestinationItem(
-                      distance: 100.0, time: 22, score: 100, reward: 10),
-                  margin: EdgeInsets.only(bottom: 20),
-                ),
+                if (calculated)
+                  Container(
+                    child: DestinationItem(
+                      score: _score,
+                      reward: _reward,
+                      time: _time,
+                      distance: _distance,
+                    ),
+                    margin: EdgeInsets.only(bottom: 20),
+                  ),
                 Container(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -98,6 +142,8 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                           started = true;
                           widget.startClicked!();
                           heightFactor = 5;
+                          _destinationRepository
+                              .saveRecentDestination(widget.destination);
                         } else {
                           started = false;
                           heightFactor = 3;

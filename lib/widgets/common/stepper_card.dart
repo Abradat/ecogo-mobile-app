@@ -29,30 +29,25 @@ class _StepperCardState extends State<StepperCard> {
         children: [
           Expanded(
             flex: 1,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/shop');
-              },
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF1D8A49),
-                      Color(0XFF29CE6B),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
+            child: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF1D8A49),
+                    Color(0XFF29CE6B),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: MediaQuery.of(context).size.height / 25,
-                  child: SvgPicture.asset(
-                    'assets/icons/shoe.svg',
-                    color: Colors.white,
-                    height: 40,
-                  ),
+              ),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: MediaQuery.of(context).size.height / 25,
+                child: SvgPicture.asset(
+                  'assets/icons/shoe.svg',
+                  color: Colors.white,
+                  height: 40,
                 ),
               ),
             ),
@@ -65,14 +60,17 @@ class _StepperCardState extends State<StepperCard> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        "24/500",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color(0XFF1EA353),
-                            fontWeight: FontWeight.w700),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          "24/500",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0XFF1EA353),
+                              fontWeight: FontWeight.w700),
+                        ),
+                        margin: EdgeInsets.only(right: 1),
                       ),
                       Text(
                         "Steps for your Tree to level up!",

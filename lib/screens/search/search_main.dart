@@ -1,11 +1,35 @@
+import 'package:ecogo_mobile_app/data/navigation/destination.dart';
+import 'package:ecogo_mobile_app/repository/destination/destination_repository.dart';
 import 'package:ecogo_mobile_app/widgets/common/general_icon_badge.dart';
 import 'package:ecogo_mobile_app/widgets/search/recent_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+class SearchMainScreen extends StatefulWidget {
+  const SearchMainScreen({Key? key}) : super(key: key);
+
+  @override
+  _SearchMainScreenState createState() => _SearchMainScreenState();
+}
+
+class _SearchMainScreenState extends State<SearchMainScreen> {
+  late Map<String, Destination> recentDestinations = <String, Destination>{};
+  final DestinationRepository _destinationRepository = DestinationRepository();
+
+  void getRecentDestinations() async {
+    final recentDests = await _destinationRepository.getRecentDestinations();
+    setState(() {
+      recentDestinations = recentDests;
+      // _destinationRepository.deleteRecentDestinations();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getRecentDestinations();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +62,36 @@ class SearchScreen extends StatelessWidget {
                   height: 48,
                   decoration: BoxDecoration(
                     color: Color(0xFF000000).withOpacity(0.06),
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
                   ),
                   child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 1, 0),
-                        child: Icon(
-                          Icons.place_outlined,
-                          color: Color(0xFF000000).withOpacity(0.4),
-                          size: 25,
-                        ),
-                      ),
-                      const Expanded(
-                        child: TextField(
-                          // TODO: Fix Appearance of Textfield
-                          autofocus: true,
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(8, 0, 1, 0),
+                      //   child: Icon(
+                      //     Icons.place_outlined,
+                      //     color: Color(0xFF000000).withOpacity(0.4),
+                      //     size: 25,
+                      //   ),
+                      // ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/search-google');
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              "Type your address",
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(0.4),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -121,73 +157,24 @@ class SearchScreen extends StatelessWidget {
                             fontWeight: FontWeight.w400),
                       ),
                     ),
-                    Expanded(
-                      child: ListView(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                          RecentListTile(
-                            title: "Tim Hortons",
-                            address: "Great Northern Way",
-                            score: 2600,
-                            location:
-                                LatLng(49.26290268543555, -123.0876085427132),
-                          ),
-                        ],
+                    if (recentDestinations.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          itemCount: recentDestinations.keys.length,
+                          itemBuilder: (context, index) {
+                            final key =
+                                recentDestinations.keys.elementAt(index);
+                            final recentDestination = recentDestinations[key]!;
+                            return RecentListTile(
+                                destination: recentDestination, score: 1000);
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -1,23 +1,36 @@
+import 'package:ecogo_mobile_app/data/navigation/destination.dart';
+import 'package:ecogo_mobile_app/services/location_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ecogo_mobile_app/data/constant/design_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:location/location.dart';
 
-class DestinationItem extends StatelessWidget {
-  final double distance;
-  final int time;
+class DestinationItem extends StatefulWidget {
   final int score;
   final int reward;
-
+  final int time;
+  final double distance;
   DestinationItem({
     Key? key,
-    required this.distance,
-    required this.time,
     required this.score,
     required this.reward,
+    required this.time,
+    required this.distance,
   }) : super(key: key);
 
+  @override
+  State<DestinationItem> createState() => _DestinationItemState();
+}
+
+class _DestinationItemState extends State<DestinationItem> {
   final double borderRadius = ITEM_BORDER_RADIUS;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,7 +71,7 @@ class DestinationItem extends StatelessWidget {
                       height: 21,
                     ),
                     Text(
-                      score.toString(),
+                      widget.score.toString(),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -86,7 +99,8 @@ class DestinationItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  distance.toString() + " Km",
+                  double.parse(widget.distance.toStringAsFixed(2)).toString() +
+                      " Km",
                   style: TextStyle(
                     fontSize: 20,
                     color: Color(0xFF000000).withOpacity(0.6),
@@ -113,7 +127,7 @@ class DestinationItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  time.toString() + "min",
+                  widget.time.toString() + "min",
                   style: TextStyle(
                     fontSize: 20,
                     color: Color(0xFF000000).withOpacity(0.6),
@@ -143,7 +157,7 @@ class DestinationItem extends StatelessWidget {
                     image: AssetImage("assets/icons/coin.png"),
                   ),
                   Text(
-                    score.toString(),
+                    widget.score.toString(),
                     style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF000000).withOpacity(0.6),

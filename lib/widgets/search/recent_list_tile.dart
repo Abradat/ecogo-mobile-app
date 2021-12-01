@@ -1,32 +1,31 @@
+import 'package:ecogo_mobile_app/data/navigation/destination.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RecentListTile extends StatelessWidget {
-  final String title;
-  final String address;
-  final LatLng? location;
+  final Destination destination;
   final int score;
-  const RecentListTile(
-      {Key? key,
-      required this.title,
-      required this.address,
-      required this.score,
-      this.location})
-      : super(key: key);
+  const RecentListTile({
+    Key? key,
+    required this.destination,
+    required this.score,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        var lat = location?.latitude;
-        var long = location?.longitude;
-        var strScore = score.toString();
+        var id = destination.id;
+        var lat = destination.location.latitude;
+        var long = destination.location.longitude;
+        var name = destination.name;
+        var address = destination.address;
         Navigator.pushNamed(
             context,
-            '/navigation?name=$title'
-            '&addr=$address&lat=$lat&long=$long&score=$strScore&reward=1000');
+            '/navigation?id=$id&name=$name'
+            '&addr=$address&lat=$lat&long=$long');
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -73,30 +72,35 @@ class RecentListTile extends StatelessWidget {
                     ],
                   )),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.87),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        destination.name,
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.87),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    address,
-                    style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                  ),
-                ],
+                    Container(
+                      height: MediaQuery.of(context).size.height / 25,
+                      child: Text(
+                        destination.address,
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

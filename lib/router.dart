@@ -2,7 +2,8 @@ import 'package:ecogo_mobile_app/data/navigation/destination.dart';
 import 'package:ecogo_mobile_app/screens/home.dart';
 import 'package:ecogo_mobile_app/screens/navigation.dart';
 import 'package:ecogo_mobile_app/screens/profile/profile.dart';
-import 'package:ecogo_mobile_app/screens/search.dart';
+import 'package:ecogo_mobile_app/screens/search/search_google.dart';
+import 'package:ecogo_mobile_app/screens/search/search_main.dart';
 import 'package:ecogo_mobile_app/screens/shop/shop.dart';
 import 'package:ecogo_mobile_app/screens/tree_house/tree_house.dart';
 import 'package:fluro/fluro.dart';
@@ -26,7 +27,12 @@ class AppRouter {
 
   static final Handler _searchHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-      return const SearchScreen();
+      return const SearchMainScreen();
+    },
+  );
+  static final Handler _googleSearchHandler = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return SearchGoogleScreen();
     },
   );
 
@@ -48,15 +54,16 @@ class AppRouter {
       var addr = params['addr']?.first;
       var lat = params['lat']?.first;
       var long = params['long']?.first;
-      var score = params['score']?.first;
-      var reward = params['reward']?.first;
+      var id = params['id']?.first;
 
       Destination destination = Destination(
         name,
         addr,
-        LatLng(double.parse(lat), double.parse(long)),
-        int.parse(score),
-        int.parse(reward),
+        LatLng(
+          double.parse(lat),
+          double.parse(long),
+        ),
+        id,
       );
       return NavigationScreen(destination: destination);
     },
@@ -73,7 +80,10 @@ class AppRouter {
     );
 
     router.define('/search',
-        handler: _searchHandler, transitionType: TransitionType.fadeIn);
+        handler: _searchHandler, transitionType: TransitionType.nativeModal);
+
+    router.define('/search-google',
+        handler: _googleSearchHandler, transitionType: TransitionType.fadeIn);
 
     router.define('/navigation',
         handler: _navigationHandler,

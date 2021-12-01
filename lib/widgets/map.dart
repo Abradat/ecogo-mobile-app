@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:ecogo_mobile_app/data/user_location.dart';
+import 'package:ecogo_mobile_app/data/map_location.dart';
 import 'package:ecogo_mobile_app/services/location_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -19,21 +20,22 @@ class MapState extends State<Map> {
   final LocationService _locationService = LocationService();
   final Location _location = Location();
   late String _mapStyle;
-  LocationData? _userLocation;
+  // LocationData? _userLocation;
+  late Position _userLocation;
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
 
   void _onMapCreated(GoogleMapController controller) {
     getCurrentLocation();
     controller.setMapStyle(_mapStyle);
 
-    _location.onLocationChanged.listen((newLocation) async {
-      GoogleMapController controller = await _controller.future;
-      controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: LatLng(newLocation.latitude!, newLocation.longitude!),
-            zoom: 15),
-      ));
-    });
+    // _location.onLocationChanged.listen((newLocation) async {
+    //   GoogleMapController controller = await _controller.future;
+    //   controller.animateCamera(CameraUpdate.newCameraPosition(
+    //     CameraPosition(
+    //         target: LatLng(newLocation.latitude!, newLocation.longitude!),
+    //         zoom: 15),
+    //   ));
+    // });
     _controller.complete(controller);
   }
 
@@ -42,14 +44,26 @@ class MapState extends State<Map> {
   }
 
   void getCurrentLocation() async {
-    _userLocation = await _locationService.getLocation();
+    // _userLocation = await _locationService.getLocation();
+    _userLocation = await _locationService.determinePosition();
     GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
-          target: LatLng(_userLocation!.latitude!, _userLocation!.longitude!),
+          target: LatLng(_userLocation.latitude, _userLocation.longitude),
           zoom: 15),
     ));
   }
+
+  void disposeController() async {
+    GoogleMapController controller = await _controller.future;
+    controller.dispose();
+  }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   disposeController();
+  // }
 
   @override
   void initState() {
@@ -57,7 +71,7 @@ class MapState extends State<Map> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
-    // getCurrentLocation();
+    getCurrentLocation();
   }
 
   @override

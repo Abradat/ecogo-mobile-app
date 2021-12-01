@@ -4,6 +4,7 @@ import 'package:ecogo_mobile_app/data/navigation/destination.dart';
 import 'package:ecogo_mobile_app/widgets/common/stepper_card.dart';
 import 'package:ecogo_mobile_app/widgets/map.dart';
 import 'package:ecogo_mobile_app/widgets/navigation/directions_card.dart';
+import 'package:ecogo_mobile_app/widgets/navigation/map_navigation.dart';
 import 'package:ecogo_mobile_app/widgets/navigation/navigation_prompt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: const Map(),
+            child: MapNavigation(destination: widget.destination),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -55,6 +56,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       navigationStarted = false;
                     });
                   },
+                  destination: widget.destination,
                 ),
               ],
             ),
