@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core';
 import 'dart:developer';
 
@@ -29,10 +30,11 @@ class NavigationPrompt extends StatefulWidget {
 class _NavigationPromptState extends State<NavigationPrompt> {
   final LocationService _locationService = LocationService();
   final DestinationRepository _destinationRepository = DestinationRepository();
+  late Timer locationTimer;
 
   bool started = false;
   bool isCalculating = true;
-  int heightFactor = 3;
+  double heightFactor = 3.2;
   late Position _userLocation;
   late double _distance;
   late int _time;
@@ -62,15 +64,30 @@ class _NavigationPromptState extends State<NavigationPrompt> {
   }
 
   @override
+  void dispose() {
+    if (mounted) {
+      super.dispose();
+    }
+  }
+
+  void startNavigationUpdate() {
+    locationTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+      getCurrentLocation();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
       height: MediaQuery.of(context).size.height / heightFactor,
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(25)),
       child: !started
           ? Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 10),
@@ -103,9 +120,8 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                         padding: EdgeInsets.all(3),
                         child: GestureDetector(
                           onTap: () {
-                            if (!started) {
-                              Navigator.pop(context);
-                            }
+                            Navigator.popUntil(
+                                context, ModalRoute.withName('/search'));
                           },
                           child: const Icon(
                             Icons.close,
@@ -138,15 +154,18 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                         primary: const Color(0xFF466BE4)),
                     onPressed: () {
                       setState(() {
-                        if (!started) {
-                          started = true;
-                          widget.startClicked!();
-                          heightFactor = 5;
-                          _destinationRepository
-                              .saveRecentDestination(widget.destination);
-                        } else {
-                          started = false;
-                          heightFactor = 3;
+                        if (mounted) {
+                          if (!started) {
+                            started = true;
+                            widget.startClicked!();
+                            heightFactor = 5;
+                            _destinationRepository
+                                .saveRecentDestination(widget.destination);
+                            startNavigationUpdate();
+                          } else {
+                            started = false;
+                            heightFactor = 3;
+                          }
                         }
                       });
                     },
@@ -163,10 +182,11 @@ class _NavigationPromptState extends State<NavigationPrompt> {
               ],
             )
           : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "23" + " min",
+                  _time.toString() + " min",
                   style: TextStyle(
                     color: Color(0xFF000000).withOpacity(0.6),
                     fontWeight: FontWeight.w700,
@@ -180,7 +200,9 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                       Container(
                         margin: EdgeInsets.only(right: 20),
                         child: Text(
-                          "1.9 Km",
+                          double.parse(_distance.toStringAsFixed(2))
+                                  .toString() +
+                              " Km",
                           style: TextStyle(
                             color: Color(0xFF000000).withOpacity(0.6),
                             fontWeight: FontWeight.w700,
@@ -189,7 +211,15 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                         ),
                       ),
                       Text(
-                        "1:18 PM",
+                        DateTime.now()
+                                .add(Duration(minutes: _time))
+                                .hour
+                                .toString() +
+                            ":" +
+                            DateTime.now()
+                                .add(Duration(minutes: _time))
+                                .minute
+                                .toString(),
                         style: TextStyle(
                           color: Color(0xFF000000).withOpacity(0.6),
                           fontWeight: FontWeight.w700,
@@ -209,6 +239,7 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                       started = false;
                       heightFactor = 3;
                       widget.stopClicked!();
+                      locationTimer.cancel();
                     });
                   },
                   child: const Text(

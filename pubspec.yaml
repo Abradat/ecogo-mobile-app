@@ -45,6 +45,7 @@ dependencies:
   google_api_headers: ^1.1.1
   geolocator: ^8.0.0
   localstore: ^1.2.1
+  pedometer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

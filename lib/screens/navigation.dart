@@ -19,6 +19,8 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+  final GlobalKey<MapNavigationState> globalKey =
+      GlobalKey<MapNavigationState>();
   bool navigationStarted = false;
   @override
   Widget build(BuildContext context) {
@@ -29,13 +31,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: MapNavigation(destination: widget.destination),
+            child:
+                MapNavigation(key: globalKey, destination: widget.destination),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Column(
               children: [
-                if (navigationStarted) const SafeArea(child: DirectionsCard()),
+                // if (navigationStarted) const SafeArea(child: DirectionsCard()),
                 Expanded(
                   flex: 1,
                   child: Container(),
@@ -49,11 +52,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   startClicked: () {
                     setState(() {
                       navigationStarted = true;
+                      globalKey.currentState!.startTracking();
                     });
                   },
                   stopClicked: () {
                     setState(() {
                       navigationStarted = false;
+                      globalKey.currentState!.stopTracking();
                     });
                   },
                   destination: widget.destination,

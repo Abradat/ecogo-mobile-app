@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:core';
 
 import 'package:ecogo_mobile_app/data/constant/google_maps_constants.dart';
 import 'package:ecogo_mobile_app/data/navigation/destination.dart';
@@ -9,22 +10,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 class MapNavigation extends StatefulWidget {
   final Destination destination;
   const MapNavigation({Key? key, required this.destination}) : super(key: key);
 
   @override
-  _MapNavigationState createState() => _MapNavigationState();
+  MapNavigationState createState() => MapNavigationState();
 }
 
-class _MapNavigationState extends State<MapNavigation> {
+class MapNavigationState extends State<MapNavigation> {
   final Completer<GoogleMapController> _controller = Completer();
   final LocationService _locationService = LocationService();
-  final Location _location = Location();
+  // final Location _location = Location();
   late String _mapStyle;
   late Position _userLocation;
+
+  final LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 1,
+  );
+  late StreamSubscription<Position> positionStream;
 
   bool checked = true;
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
@@ -153,6 +159,24 @@ class _MapNavigationState extends State<MapNavigation> {
         polylines[id] = polyline;
       });
     }
+  }
+
+  void startTracking() async {
+    GoogleMapController controller = await _controller.future;
+    positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+      _userLocation = position;
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: LatLng(_userLocation.latitude, _userLocation.longitude),
+            zoom: 18),
+      ));
+    });
+  }
+
+  void stopTracking() {
+    positionStream.cancel();
   }
 
   @override

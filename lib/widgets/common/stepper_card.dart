@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
 
+import 'package:pedometer/pedometer.dart';
+
 class StepperCard extends StatefulWidget {
   const StepperCard({Key? key}) : super(key: key);
 
@@ -11,6 +13,57 @@ class StepperCard extends StatefulWidget {
 }
 
 class _StepperCardState extends State<StepperCard> {
+  late Stream<StepCount> _stepCountStream;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
+  String _status = '?', _steps = '?';
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  void onStepCount(StepCount event) {
+    print(event);
+    setState(() {
+      _steps = event.steps.toString();
+    });
+  }
+
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    print(event);
+    setState(() {
+      _status = event.status;
+    });
+  }
+
+  void onPedestrianStatusError(error) {
+    print('onPedestrianStatusError: $error');
+    setState(() {
+      _status = 'Pedestrian Status not available';
+    });
+    print(_status);
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      _steps = '-1';
+    });
+  }
+
+  void initPlatformState() async {
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
+
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    if (!mounted) return;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +71,7 @@ class _StepperCardState extends State<StepperCard> {
       margin:
           Platform.isAndroid ? EdgeInsets.only(bottom: 30) : EdgeInsets.zero,
       height: MediaQuery.of(context).size.height / 12,
-      width: MediaQuery.of(context).size.width - 50,
+      width: MediaQuery.of(context).size.width - 20,
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF).withOpacity(0.8),
         borderRadius: BorderRadius.all(
@@ -64,7 +117,7 @@ class _StepperCardState extends State<StepperCard> {
                     children: [
                       Container(
                         child: Text(
-                          "24/500",
+                          "$_steps/500",
                           style: TextStyle(
                               fontSize: 20,
                               color: Color(0XFF1EA353),

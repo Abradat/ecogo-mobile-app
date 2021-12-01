@@ -13,7 +13,6 @@ class DestinationRepository extends IDestinationRepository {
         items.putIfAbsent(item.id, () => item);
       });
     });
-    print(items);
     return items;
   }
 
