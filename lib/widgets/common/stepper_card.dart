@@ -117,7 +117,7 @@ class _StepperCardState extends State<StepperCard> {
                     children: [
                       Container(
                         child: Text(
-                          "$_steps/500",
+                          "$_steps Steps",
                           style: TextStyle(
                               fontSize: 20,
                               color: Color(0XFF1EA353),
@@ -126,9 +126,9 @@ class _StepperCardState extends State<StepperCard> {
                         margin: EdgeInsets.only(right: 1),
                       ),
                       Text(
-                        "Steps for your Tree to level up!",
+                        " Taken! Great Job!!",
                         style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w700),
+                            fontSize: 17, fontWeight: FontWeight.w700),
                       )
                     ],
                   ),
@@ -140,7 +140,7 @@ class _StepperCardState extends State<StepperCard> {
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10)),
                     child: LinearProgressIndicator(
-                      value: 0.05,
+                      value: 0.8,
                       color: Color(0xFF29CE6B),
                       minHeight: 10,
                     ),

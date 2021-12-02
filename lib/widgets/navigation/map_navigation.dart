@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:core';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:ecogo_mobile_app/data/constant/google_maps_constants.dart';
 import 'package:ecogo_mobile_app/data/navigation/destination.dart';
@@ -29,6 +31,10 @@ class MapNavigationState extends State<MapNavigation> {
   late Position _userLocation;
   late Position _userTempLocation;
   bool arrived = false;
+  bool firstTimefetch = true;
+  bool firstTimeUpdate = true;
+  late Marker _userLocationMarker;
+  late BitmapDescriptor _userIcon;
 
   final LocationSettings locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.high,
@@ -119,11 +125,35 @@ class MapNavigationState extends State<MapNavigation> {
   }
 
   void getCurrentLocation() async {
+    Uint8List customMarker =
+        await getBytesFromAsset("assets/icons/navigation_avatar.png", 130);
     _userLocation = await _locationService.determinePosition();
     GoogleMapController controller = await _controller.future;
     if (checked) {
       _calculateDistance();
     }
+    if (firstTimefetch) {
+      firstTimefetch = false;
+      _userLocationMarker = Marker(
+        anchor: Offset(0, 0.5),
+        markerId: MarkerId('user-location'),
+        position: LatLng(_userLocation.latitude, _userLocation.longitude),
+        icon: BitmapDescriptor.fromBytes(customMarker),
+      );
+      setState(() {
+        markers.add(_userLocationMarker);
+      });
+    }
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   _createPolylines(
@@ -152,11 +182,11 @@ class MapNavigationState extends State<MapNavigation> {
     PolylineId id = PolylineId('poly');
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.white,
+      color: Color(0xFFF8B62D),
       points: polylineCoordinates,
       startCap: Cap.roundCap,
       endCap: Cap.roundCap,
-      width: 2,
+      width: 3,
     );
     if (mounted) {
       setState(() {
@@ -166,11 +196,30 @@ class MapNavigationState extends State<MapNavigation> {
   }
 
   void startTracking() async {
+    Uint8List customMarker =
+        await getBytesFromAsset("assets/icons/navigation_avatar.png", 130);
     GoogleMapController controller = await _controller.future;
+    if (firstTimeUpdate) {
+      firstTimeUpdate = false;
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: LatLng(_userLocation.latitude, _userLocation.longitude),
+            zoom: 18),
+      ));
+    }
     positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
       _userTempLocation = position;
+      setState(() {
+        markers.add(Marker(
+          anchor: Offset(0, 0.5),
+          markerId: MarkerId('user-location'),
+          position: LatLng(position.latitude, position.longitude),
+          icon: BitmapDescriptor.fromBytes(customMarker),
+        ));
+      });
+
       controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
             target:
@@ -219,7 +268,7 @@ class MapNavigationState extends State<MapNavigation> {
     return GoogleMap(
       markers: Set<Marker>.from(markers),
       polylines: Set<Polyline>.of(polylines.values),
-      myLocationEnabled: true,
+      myLocationEnabled: false,
       myLocationButtonEnabled: false,
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(target: _initialcameraposition),

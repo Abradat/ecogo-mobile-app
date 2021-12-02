@@ -34,7 +34,7 @@ class _NavigationPromptState extends State<NavigationPrompt> {
 
   bool started = false;
   bool isCalculating = true;
-  double heightFactor = 3.2;
+  double heightFactor = 3;
   late Position _userLocation;
   late double _distance;
   late int _time;
@@ -148,6 +148,7 @@ class _NavigationPromptState extends State<NavigationPrompt> {
                     margin: EdgeInsets.only(bottom: 20),
                   ),
                 Container(
+                  margin: EdgeInsets.only(bottom: 10),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 60),
